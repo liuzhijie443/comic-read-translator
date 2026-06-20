@@ -6,6 +6,15 @@
 
 油猴直接安装 [漫译助手](https://greasyfork.org/zh-CN/scripts/583619-%E6%BC%AB%E8%AF%91%E5%8A%A9%E6%89%8B)
 
+<img width="309" height="284" alt="ScreenShot_2026-06-20_234351_416" src="https://github.com/user-attachments/assets/06abf670-3605-4ef6-bba7-0d99e17c3c78" />
+<br>
+
+## 翻译效果
+<br>
+<img width="744" height="967" alt="tu1" style="width:400px; height:auto;" src="https://github.com/user-attachments/assets/1f0e42fc-d362-4773-a113-f30c3750253c" />
+<img width="820" height="1075" alt="tu2" style="width:400px; height:auto;" src="https://github.com/user-attachments/assets/31993c5b-f41c-4e1b-be3b-9b90eb5c6069" />
+
+
 ## 功能介绍
 
 - **ComicRead 自动翻译适配**：识别 `ComicRead` 阅读容器和页面图片状态，在进入阅读模式后自动调度翻译。
@@ -66,7 +75,9 @@
 - Agnes - agnes-2.0-flash 免费
 - mistral - mistral-large-latest 免费
 - intern -intern-latest 免费
-
+- 轨基流动 - Qwen/Qwen3.5-4B 免费 慢
+- 轨基流动 - nex-agi/Nex-N2-Pro 限免
+- 
 ## 来自 Linux Do
 
 [LINUX DO 社区](https://linux.do/u/k452b)
