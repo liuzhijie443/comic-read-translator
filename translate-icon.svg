@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-labelledby="title desc">
+  <title id="title">Comic Read Translator Icon</title>
+  <desc id="desc">Pink circular translation icon with the Chinese character yi in the center.</desc>
+  <defs>
+    <linearGradient id="iconGradient" x1="5" y1="4" x2="27" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(255, 182, 193, 0.8)" />
+      <stop offset="100%" stop-color="rgba(255, 105, 180, 0.8)" />
+    </linearGradient>
+    <filter id="iconShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(255, 105, 180, 0.2)" />
+    </filter>
+  </defs>
+  <g filter="url(#iconShadow)">
+    <circle cx="16" cy="16" r="15.25" fill="url(#iconGradient)" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.5" />
+  </g>
+  <text
+    x="16"
+    y="16"
+    fill="#ffffff"
+    font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif"
+    font-size="15"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >译</text>
+</svg>
