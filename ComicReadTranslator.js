@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         漫译助手
 // @namespace    https://github.com/liuzhijie443/comic-read-translator
-// @version      2.1.0-2026-06-20
+// @version      2.1.2-2026-06-20
 // @description  图片漫画一键翻译，适配 ComicRead 阅读模式支持自动翻译与翻译缓存。
 // @author       k452b
 // @match        *://*/*
@@ -2698,6 +2698,15 @@
   function normalizeTranslationPayload(data) {
     if (!data) return null;
 
+    const getEmptyPlaceholderText = () => ({
+      x: 1,
+      y: 1,
+      width: 0,
+      height: 0,
+      text: " ",
+      size: "small",
+    });
+
     const normalizeTextItem = (item) => {
       if (!item || typeof item !== "object") return null;
 
@@ -2716,12 +2725,14 @@
 
     if (Array.isArray(data)) {
       const texts = data.map(normalizeTextItem).filter(Boolean);
-      return texts.length ? { texts } : null;
+      if (texts.length === 0) texts.push(getEmptyPlaceholderText());
+      return { texts };
     }
 
     if (Array.isArray(data.texts)) {
       const texts = data.texts.map(normalizeTextItem).filter(Boolean);
-      return texts.length ? { ...data, texts } : null;
+      if (texts.length === 0) texts.push(getEmptyPlaceholderText());
+      return { ...data, texts };
     }
 
     return null;
