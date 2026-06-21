@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         漫译助手
 // @namespace    https://github.com/liuzhijie443/comic-read-translator
-// @version      2.1.2-2026-06-20
+// @version      2.1.3-2026-06-20
 // @description  图片漫画一键翻译，适配 ComicRead 阅读模式支持自动翻译与翻译缓存。
 // @author       k452b
 // @match        *://*/*
@@ -72,8 +72,8 @@
     textBackgroundPaddingRatio: 0.12,
     // 文字底板圆角比例，值越大圆角越接近胶囊
     textBackgroundRadiusRatio: 0.15,
-    // 单条文本框的最小高度，避免过矮导致字号和排版过小
-    textMinBoxHeight: 25,
+    // 每行文本的最小高度，避免过矮导致字号和排版过小
+    textMinBoxHeight: 22,
     // 自动合并后的多行文本行距倍率
     mergedTextLineHeightRatio: 1.35,
     // 不同字号档位的最大字体大小，避免超大文本框把字号放得过大
@@ -382,9 +382,10 @@
   ];
   const TRANSLATION_PROMPT = `请识别图片文字并翻译成简体中文。
 要求：
+** 请避免字面直译。请根据中文母语者的表达习惯进行意译，确保译文自然、地道、流畅，就像是母语者直接说出来的一样。 **
 1. 使用归一化坐标(0-1000)。
 2. **严禁保留英文或空格**。将"HAH"等拟声词翻译为"哈"。
-3. 翻译长度应与原文视觉长度匹配，用\n换行。换行必须尽量模仿原图气泡或文本框的排版结构，保持接近的行数、每行长度和视觉节奏。
+3. 翻译长度应与原文视觉长度匹配，用\n换行。换行必须尽量模仿原图气泡或文本框的排版结构，不要照搬原英文的换行位置，必须根据中文的“词语边界”或“语意停顿（如标点符号处）”进行换行。
 4. 不要为了塞进文本框而把一句话机械拆成很多很短的行；优先输出更自然、更接近原图的断句和分行。
 5. 如果原图本身是多行文本，译文也应尽量保持多行结构；如果原图是一行或两行短句，不要无故拆成更多行。
 6. 智能判断字号(small/medium/large)。
@@ -400,14 +401,23 @@
     return [location.origin, location.pathname, location.search].join("");
   }
 
+  function getTextLineCount(text) {
+    return Math.max(1, String(text || "").split("\n").length);
+  }
+
+  function getMinTextBoxHeight(text) {
+    return CONFIG.textMinBoxHeight * getTextLineCount(text);
+  }
+
   function sanitizeTranslationTexts(texts) {
     if (!Array.isArray(texts)) return [];
     return texts
       .map((item) => {
         if (!item || typeof item !== "object") return null;
         const width = Number(item.width) || 0;
+        const text = String(item.text || "");
         const height = Math.max(
-          CONFIG.textMinBoxHeight,
+          getMinTextBoxHeight(text),
           Number(item.height) || 0,
         );
         return {
@@ -415,7 +425,7 @@
           y: item.y,
           width,
           height,
-          text: String(item.text || ""),
+          text,
           size: String(item.size || "medium"),
         };
       })
@@ -544,10 +554,9 @@
         last._mergedLineCount += 1;
         last._mergedHeightSum += item.height;
         last.height = Math.max(
-          CONFIG.textMinBoxHeight,
+          getMinTextBoxHeight(last.text),
           last._bottom - last.y,
           last._mergedHeightSum,
-          last._mergedLineCount * CONFIG.textMinBoxHeight,
         );
         continue;
       }
